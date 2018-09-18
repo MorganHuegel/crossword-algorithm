@@ -118,6 +118,10 @@ def horizontalAssign(word, resultsArray):
 
 
 
+
+
+
+
 def verticalAssign(word, resultsArray):
     columnIndex = random.randint(0, 9)
     readDownwards = random.randint(0, 1)
@@ -187,9 +191,14 @@ def verticalAssign(word, resultsArray):
 
 
 
+
+
+
+
+
 def diagonalAssign(word, resultsArray):
-    directionIndicator = 3
-    # directionIndicator = random.randint(1, 4)
+    directionIndicator = random.randint(1, 4)
+
     if directionIndicator == 1:
         #reads top-to-bottom, left-to-right \
         rowIndex = random.randint(0, 10 - len(word))
@@ -216,6 +225,7 @@ def diagonalAssign(word, resultsArray):
 
         for j in range(len(word)):
             resultsArray[rowIndex + j][columnIndex + j] = word[j]
+
     elif directionIndicator == 2:
         #reads top-to-bottom, right-to-left /
         rowIndex = random.randint(0, 10 - len(word))
@@ -234,7 +244,7 @@ def diagonalAssign(word, resultsArray):
                     columnIndex = len(word) - 1
                 columnsChecked += 1
 
-            checkValue = resultsArray[rowIndex][columnIndex]
+            checkValue = resultsArray[rowIndex + i][columnIndex - i]
             if checkValue == '':
                 i += 1
             else:
@@ -263,7 +273,7 @@ def diagonalAssign(word, resultsArray):
                     columnIndex = len(word) - 1
                 columnsChecked += 1
 
-            checkValue = resultsArray[rowIndex][columnIndex]
+            checkValue = resultsArray[rowIndex - i][columnIndex - i]
             if checkValue == '':
                 i += 1
             else:
@@ -275,20 +285,52 @@ def diagonalAssign(word, resultsArray):
         
         for j in range(len(word)):
             resultsArray[rowIndex - j][columnIndex - j] = word[j]
+
     else:
-        print ''
         #reads bottom-to-top, left-to-right /
+        rowIndex = random.randint(len(word) - 1, 9)
+        columnIndex = random.randint(0, 10 - len(word))
+
+        i = 0
+        rowsChecked = 0
+        columnsChecked = 0
+        while i < len(word):
+            if(rowsChecked == 11 - len(word) and columnsChecked == 11 - len(word)):
+                return False
+            elif(rowsChecked == 11 - len(word)):
+                rowsChecked = 0
+                columnIndex = (columnIndex + 1) % (11 - len(word))
+                columnsChecked += 1
+
+            checkValue = resultsArray[rowIndex - i][columnIndex + i]
+            if checkValue == '':
+                i += 1
+            else:
+                rowIndex += 1
+                if rowIndex > 9:
+                    rowIndex = len(word) - 1
+                rowsChecked += 1
+                i = 0
+        
+        for j in range(len(word)):
+            resultsArray[rowIndex - j][columnIndex + j] = word[j]
+
     return resultsArray
 
 
-# result = diagonalAssign('chimp', wordSearchTemplate)
-# for i in range(len(result)):
-#     print result[i]
+result = diagonalAssign('chimp', wordSearchTemplate)
+for i in range(len(result)):
+    print result[i]
+# for i in range(1000):
+#     diagonalAssign('chimp', filledArray)
 
 
 
 
-def generateCrosswordEasy(wordList):
+
+
+
+def generateWordSearchEasy(wordList):
     resultMatrix = [['' for i in range(10)] for i in range(10)]
     for i in range(len(wordList)):
         direction = random.randint(1,2)
@@ -303,11 +345,11 @@ def generateCrosswordEasy(wordList):
     return resultMatrix
 
 
-# result = generateCrosswordEasy(['dog', 'cat', 'pizza', 'carl', 'chimp'])
+# result = generateWordSearchEasy(['dog', 'cat', 'pizza', 'carl', 'chimp'])
 # for i in range(10):
 #     print result[i]
 
-def generateCrosswordHard(wordList):
+def generateWordSearchHard(wordList):
     resultMatrix = [['' for i in range(10)] for i in range(10)]
     for i in range(len(wordList)):
         direction = random.randint(1,3)
