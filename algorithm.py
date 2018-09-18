@@ -318,12 +318,6 @@ def diagonalAssign(word, resultsArray):
     return resultsArray
 
 
-result = diagonalAssign('chimp', wordSearchTemplate)
-for i in range(len(result)):
-    print result[i]
-# for i in range(1000):
-#     diagonalAssign('chimp', filledArray)
-
 
 
 
@@ -336,8 +330,9 @@ def generateWordSearchEasy(wordList):
         direction = random.randint(1,2)
         if direction == 1:
             horizontalAssign(wordList[i], resultMatrix)
-        elif direction == 2:
+        else:
             verticalAssign(wordList[i], resultMatrix)
+
     for i in range(len(resultMatrix)):
         for j in range(len(resultMatrix[i])):
             if resultMatrix[i][j] == '':
@@ -345,22 +340,53 @@ def generateWordSearchEasy(wordList):
     return resultMatrix
 
 
-# result = generateWordSearchEasy(['dog', 'cat', 'pizza', 'carl', 'chimp'])
-# for i in range(10):
-#     print result[i]
+
 
 def generateWordSearchHard(wordList):
     resultMatrix = [['' for i in range(10)] for i in range(10)]
+
     for i in range(len(wordList)):
         direction = random.randint(1,3)
-        if direction == 1:
-            horizontalAssign(wordList[i], resultMatrix)
-        elif direction == 2:
-            verticalAssign(wordList[i], resultMatrix)
-        # else:
-        #     diagonalAssign(wordList[i], resultMatrix)
-    # for i in range(len(resultMatrix)):
-    #     for j in range(len(resultMatrix[i])):
-    #         if resultMatrix[i][j] == '':
-    #             resultMatrix[i][j] = alphabet[random.randint(0, 25)]
+
+        impossible = True
+        attempts = 0
+        while attempts < 4 :
+            if direction == 1:
+                if horizontalAssign(wordList[i], resultMatrix):
+                    impossible = False
+                    break
+                else:
+                    attempts += 1
+                    direction = 2
+            elif direction == 2:
+                if verticalAssign(wordList[i], resultMatrix):
+                    impossible = False
+                    break
+                else:
+                    attempts += 1
+                    direction = 3
+            else:
+                if diagonalAssign(wordList[i], resultMatrix):
+                    impossible = False
+                    break
+                else:
+                    attempts += 1
+                    direction = 1
+        if impossible:
+            return False #means that the word could not be inserted in any direction, user can try again
+
+    for i in range(len(resultMatrix)):
+        for j in range(len(resultMatrix[i])):
+            if resultMatrix[i][j] == '':
+                resultMatrix[i][j] = alphabet[random.randint(0, 25)]
     return resultMatrix
+
+
+
+result = generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
+for i in range(len(result)):
+    print result[i]
+
+
+# print generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'])
+# ^^^^^ For checking the error case ^^^^^
