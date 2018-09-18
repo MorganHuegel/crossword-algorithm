@@ -47,19 +47,19 @@ def horizontalAssign(word, resultsArray):
     rowIndex = random.randint(0, 9)
     forward = random.randint(0, 1)
     if(forward):
-        # make sure you're not too close to the right side
+        # makes sure you're not too close to the right side
         columnIndex = random.randint(0, 10 - len(word))
 
         i = 0
-        rowsSwithces = 0
+        rowSwitches = 0
         columnSwitches = 0
         while i < len(word):
-            if(rowsSwithces == 10 and columnSwitches == (11 - len(word))):
+            if(rowSwitches == 10 and columnSwitches == (11 - len(word))):
                 # no where for the word to fit
                 return False
-            elif rowsSwithces == 10:
-                # no rows available for that column index
-                rowsSwithces = 0
+            elif rowSwitches == 10:
+                # no rows available for that column index, so switch columns
+                rowSwitches = 0
                 columnIndex = (columnIndex - 1) % (11 - len(word))
                 columnSwitches += 1
 
@@ -69,7 +69,7 @@ def horizontalAssign(word, resultsArray):
             else:
                 # if the spots are already taken, check the next row
                 rowIndex = (rowIndex + 1) % 10
-                rowsSwithces += 1
+                rowSwitches += 1
                 i = 0
 
         #should have correct rowIndex, colIndex by this point
@@ -82,15 +82,15 @@ def horizontalAssign(word, resultsArray):
         columnIndex = random.randint(len(word) - 1, 9)
 
         i = 0
-        rowsSwithces = 0
+        rowSwitches = 0
         columnSwitches = 0
         while i < len(word):
-            if(rowsSwithces == 10 and columnSwitches == (11 - len(word))):
+            if(rowSwitches == 10 and columnSwitches == (11 - len(word))):
                 # no where for the word to fit
                 return False
-            elif rowsSwithces == 10:
-                # no rows available for that column index
-                rowsSwithces = 0
+            elif rowSwitches == 10:
+                # no rows available for that column index, so try next column
+                rowSwitches = 0
                 columnIndex = columnIndex + 1
                 if columnIndex == 10:
                     columnIndex = len(word) - 1
@@ -102,15 +102,86 @@ def horizontalAssign(word, resultsArray):
             else:
                 # if the spots are already taken, check the next row
                 rowIndex = (rowIndex + 1) % 10
-                rowsSwithces += 1
+                rowSwitches += 1
                 i = 0
 
-        #should have correct rowIndex, colIndex by this point
+        #should have correct rowIndex and columnIndex by this point
         for j in range(len(word)):
             resultsArray[rowIndex][columnIndex - j] = word[j]
     
     return resultsArray
 
+
+def verticalAssign(word, resultsArray):
+    columnIndex = random.randint(0, 9)
+    readDownwards = random.randint(0, 1)
+    if(readDownwards):
+        # makes sure you're not too close to the bottom
+        rowIndex = random.randint(0, 10 - len(word))
+
+        i = 0
+        rowSwitches = 0
+        columnSwitches = 0
+        while i < len(word):
+            if(columnSwitches == 10 and rowSwitches == (11 - len(word))):
+                # nowhere for the word to fit
+                return False
+            elif columnSwitches == 10:
+                # no columns available for that row index, so switch rows
+                columnSwitches = 0
+                rowIndex = (rowIndex + 1) % (11 - len(word))
+                rowSwitches += 1
+
+            checkValue = resultsArray[rowIndex + i][columnIndex]
+            if checkValue == '':
+                i += 1
+            else:
+                # if the spots are already taken, check the next column
+                columnIndex = (columnIndex + 1) % 10
+                columnSwitches += 1
+                i = 0
+
+        #should have correct rowIndex and columnIndex by this point
+        for j in range(len(word)):
+            resultsArray[rowIndex + j][columnIndex] = word[j]
+    
+    else:
+        # make sure you're not too close to the top
+        rowIndex = random.randint(len(word) - 1, 9)
+
+        i = 0
+        rowSwitches = 0
+        columnSwitches = 0
+        while i < len(word):
+            if(columnSwitches == 10 and rowSwitches == (11 - len(word))):
+                # no where for the word to fit
+                return False
+            elif columnSwitches == 10:
+                # no rows available for that column index, so try next column
+                columnSwitches = 0
+                rowIndex = rowIndex + 1
+                if rowIndex == 10:
+                    rowIndex = len(word) - 1
+                rowSwitches += 1
+
+            checkValue = resultsArray[rowIndex - i][columnIndex]
+            if checkValue == '':
+                i += 1
+            else:
+                # if the spots are already taken, check the next row
+                columnIndex = (columnIndex + 1) % 10
+                columnSwitches += 1
+                i = 0
+
+        #should have correct rowIndex and columnIndex by this point
+        for j in range(len(word)):
+            resultsArray[rowIndex - j][columnIndex] = word[j]
+    
+    return resultsArray
+
+matrix = verticalAssign('chimp', wordSearchTemplate)
+for i in range(10):
+    print matrix[i]
 
 
 def generateCrossword(wordList):
@@ -120,6 +191,6 @@ def generateCrossword(wordList):
     return resultMatrix
 
 
-result = generateCrossword(['dog', 'cat', 'pizza', 'carl', 'chimp'])
-for i in range(10):
-    print result[i]
+# result = generateCrossword(['dog', 'cat', 'pizza', 'carl', 'chimp'])
+# for i in range(10):
+#     print result[i]
