@@ -1,4 +1,5 @@
-#input: array of 5 words, max of 5 letters
+#INPUT: List of words
+# (words longer than 5 letters increase the chance that a word-search cannot mathematically be created)
 words = ['dog', 'cat', 'chimp', 'eagle', 'snake']
 
 #output: 2-dimensional matrix, 10x10, where the words are displayed horizontally or vertically (NO DIAGONAL)
@@ -9,8 +10,8 @@ filledArray = [
     ['s', 'l', 'y', 'o', 'f', 'q', "g", 'e', 'u', 'v'],
     ['p', 'i', 'a', 'g', 'f', 'q', "l", 't', 'u', 'b'],
     ['i', 'd', 'p', 'e', 'f', 'q', "e", 'q', 'a', 'e'],
-    ['' for i in range(10)],
-    ['' for i in range(10)],
+    ['' for i in range(10)], #row not filled for testing purposes
+    ['' for i in range(10)], #row not filled for testing purposes
     ['i', 'd', 'p', 'e', 'f', 'q', "e", 'q', 'a', 'e'],
     ['i', 'd', 'p', 'e', 'f', 'q', "e", 'q', 'a', 'e'],
     ['i', 'd', 'p', 'e', 'f', 'q', "e", 'q', 'a', 'e'],
@@ -19,22 +20,19 @@ filledArray = [
 
 # Approach:
 # 1. loop through words array, looking at one word at a time (i.e. 'dog')
-# 2. randomly select horizontal or vertical (50-50 chance)
+# 2. randomly select horizontal, vertical, or diagonal (random number 1-3)
 # 3. if horizontal, run horizontal function:
-#     - randomly select which row (index 0-9)
-#     - randomly select which column to start at (index 0-9)
-#     - randomly select forward or backward reading (50-50 chance)
-#     - if its forward, check to make sure that it is not too close to the right side
-#         10 - columnIndex must be greater than or equal to word length, or else reassign to read backwards)
-#     - if its backward, check to make sure that it is not too close to the left side
-#         columnIndex + 1 must be greater than or equal to word length, or else rassign to read forwards
-#     - iterate through result array according to length of word to make sure that there are enough blank spaces
-#         if not enough blank spaces, choose a new row index and new column index
-#     - assuming there are enough blank spaces, reassign the values of the array template
-#         resultsArray[rowIndex][columnIndex +/- counter] = letter, for each letter in the word
+#   - if it returns False, try running the vertical function on that word instead
 # 4. if vertical, run vertical function:
-#     ////stuff will go here
-# 5. at end, return the results array
+#   - if it returns False, try running the diagonal function on that word instead
+# 5. if diagonal, run the diagonal function:
+#   - if it returns False, try running the horizontal function
+# 6. keep counter to ensure that it only tries each method once for each word
+#   - return False if each direction has been tried with no luck
+# 7. after each word has been inserted, loop through results Array, replacing '' with random letter
+# 8. return the results Array
+
+
 
 
 
@@ -382,10 +380,16 @@ def generateWordSearchHard(wordList):
     return resultMatrix
 
 
+# result = generateWordSearchEase(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
+# for i in range(len(result)):
+#     print result[i]
+# ^^^^^ For checking the easy function ^^^^^
 
-result = generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
-for i in range(len(result)):
-    print result[i]
+
+# result = generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
+# for i in range(len(result)):
+#     print result[i]
+# ^^^^^ For checking the hard function ^^^^^
 
 
 # print generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'])
