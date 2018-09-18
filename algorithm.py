@@ -187,6 +187,13 @@ def verticalAssign(word, resultsArray):
 
 
 
+# def diagonalAssign(word, resultsArray):
+#     columnIndex = random.randint(0, 9)
+    
+
+
+
+
 def generateCrosswordEasy(wordList):
     resultMatrix = [['' for i in range(10)] for i in range(10)]
     for i in range(len(wordList)):
@@ -206,3 +213,18 @@ def generateCrosswordEasy(wordList):
 # for i in range(10):
 #     print result[i]
 
+def generateCrosswordHard(wordList):
+    resultMatrix = [['' for i in range(10)] for i in range(10)]
+    for i in range(len(wordList)):
+        direction = random.randint(1,3)
+        if direction == 1:
+            horizontalAssign(wordList[i], resultMatrix)
+        elif direction == 2:
+            verticalAssign(wordList[i], resultMatrix)
+        # else:
+        #     diagonalAssign(wordList[i], resultMatrix)
+    # for i in range(len(resultMatrix)):
+    #     for j in range(len(resultMatrix[i])):
+    #         if resultMatrix[i][j] == '':
+    #             resultMatrix[i][j] = alphabet[random.randint(0, 25)]
+    return resultMatrix
