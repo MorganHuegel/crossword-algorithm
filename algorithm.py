@@ -187,9 +187,103 @@ def verticalAssign(word, resultsArray):
 
 
 
-# def diagonalAssign(word, resultsArray):
-#     columnIndex = random.randint(0, 9)
-    
+def diagonalAssign(word, resultsArray):
+    directionIndicator = 3
+    # directionIndicator = random.randint(1, 4)
+    if directionIndicator == 1:
+        #reads top-to-bottom, left-to-right \
+        rowIndex = random.randint(0, 10 - len(word))
+        columnIndex = random.randint(0, 10 - len(word))
+
+        i = 0
+        columnSwitch = 0
+        rowSwitch = 0
+        while(i < len(word)):
+            if(columnSwitch == 11 - len(word) and rowSwitch == 11 - len(word)):
+                return False
+            if(columnSwitch == 11 - len(word)):
+                columnSwitch = 0
+                rowIndex = (rowIndex + 1) % (11 - len(word))
+                rowSwitch += 1
+
+            checkValue = resultsArray[rowIndex + i][columnIndex + i]
+            if checkValue == '':
+                i += 1
+            else:
+                columnIndex = (columnIndex + 1) % (11 - len(word))
+                columnSwitch += 1
+                i = 0
+
+        for j in range(len(word)):
+            resultsArray[rowIndex + j][columnIndex + j] = word[j]
+    elif directionIndicator == 2:
+        #reads top-to-bottom, right-to-left /
+        rowIndex = random.randint(0, 10 - len(word))
+        columnIndex = random.randint(len(word) - 1, 9)
+
+        i = 0
+        rowsChecked = 0
+        columnsChecked = 0
+        while i < len(word):
+            if(rowsChecked == 11 - len(word) and columnsChecked == 11 - len(word)):
+                return False
+            elif(rowsChecked == 11 - len(word)):
+                rowsChecked = 0
+                columnIndex = columnIndex + 1
+                if columnIndex > len(resultsArray) - 1:
+                    columnIndex = len(word) - 1
+                columnsChecked += 1
+
+            checkValue = resultsArray[rowIndex][columnIndex]
+            if checkValue == '':
+                i += 1
+            else:
+                rowIndex = (rowIndex + 1) % (11 - len(word))
+                rowsChecked += 1
+                i = 0
+        
+        for j in range(len(word)):
+            resultsArray[rowIndex + j][columnIndex - j] = word[j]
+
+    elif directionIndicator == 3:
+        #reads bottom-to-top, right-to-left \
+        rowIndex = random.randint(len(word) - 1, 9)
+        columnIndex = random.randint(len(word) - 1, 9)
+
+        i = 0
+        rowsChecked = 0
+        columnsChecked = 0
+        while i < len(word):
+            if(rowsChecked == 11 - len(word) and columnsChecked == 11 - len(word)):
+                return False
+            elif(rowsChecked == 11 - len(word)):
+                rowsChecked = 0
+                columnIndex = columnIndex + 1
+                if columnIndex > 9:
+                    columnIndex = len(word) - 1
+                columnsChecked += 1
+
+            checkValue = resultsArray[rowIndex][columnIndex]
+            if checkValue == '':
+                i += 1
+            else:
+                rowIndex += 1
+                if rowIndex > 9:
+                    rowIndex = len(word) - 1
+                rowsChecked += 1
+                i = 0
+        
+        for j in range(len(word)):
+            resultsArray[rowIndex - j][columnIndex - j] = word[j]
+    else:
+        print ''
+        #reads bottom-to-top, left-to-right /
+    return resultsArray
+
+
+# result = diagonalAssign('chimp', wordSearchTemplate)
+# for i in range(len(result)):
+#     print result[i]
 
 
 
