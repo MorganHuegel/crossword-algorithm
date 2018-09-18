@@ -39,8 +39,12 @@ filledArray = [
 
 
 import random
+import string
+alphabet = string.letters[0:26]
 
 wordSearchTemplate = [['' for i in range(10)] for i in range(10)]
+
+
 
 
 def horizontalAssign(word, resultsArray):
@@ -112,6 +116,8 @@ def horizontalAssign(word, resultsArray):
     return resultsArray
 
 
+
+
 def verticalAssign(word, resultsArray):
     columnIndex = random.randint(0, 9)
     readDownwards = random.randint(0, 1)
@@ -179,18 +185,24 @@ def verticalAssign(word, resultsArray):
     
     return resultsArray
 
-matrix = verticalAssign('chimp', wordSearchTemplate)
-for i in range(10):
-    print matrix[i]
 
 
-def generateCrossword(wordList):
+def generateCrosswordEasy(wordList):
     resultMatrix = [['' for i in range(10)] for i in range(10)]
     for i in range(len(wordList)):
-        horizontalAssign(wordList[i], resultMatrix)
+        direction = random.randint(1,2)
+        if direction == 1:
+            horizontalAssign(wordList[i], resultMatrix)
+        elif direction == 2:
+            verticalAssign(wordList[i], resultMatrix)
+    for i in range(len(resultMatrix)):
+        for j in range(len(resultMatrix[i])):
+            if resultMatrix[i][j] == '':
+                resultMatrix[i][j] = alphabet[random.randint(0, 25)]
     return resultMatrix
 
 
-# result = generateCrossword(['dog', 'cat', 'pizza', 'carl', 'chimp'])
+# result = generateCrosswordEasy(['dog', 'cat', 'pizza', 'carl', 'chimp'])
 # for i in range(10):
 #     print result[i]
+
