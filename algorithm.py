@@ -37,6 +37,7 @@ filledArray = [
 
 import random
 import string
+import pprint
 
 
 alphabet = string.ascii_lowercase
@@ -44,23 +45,26 @@ alphabet = string.ascii_lowercase
 
 
 def horizontalAssign(word, resultsArray):
-    rowIndex = random.randint(0, 9)
+    puzzleWidth = len(resultsArray)
+    wordLength = len(word)
+
+    rowIndex = random.randint(0, puzzleWidth - 1)
     forward = random.randint(0, 1)
     if forward:
         # makes sure you're not too close to the right side
-        columnIndex = random.randint(0, 10 - len(word))
+        columnIndex = random.randint(0, puzzleWidth - wordLength)
 
         i = 0
         rowSwitches = 0
         columnSwitches = 0
-        while i < len(word):
-            if(rowSwitches == 10 and columnSwitches == (11 - len(word))):
+        while i < wordLength:
+            if(rowSwitches == puzzleWidth and columnSwitches == (puzzleWidth + 1 - wordLength)):
                 # no where for the word to fit
                 return False
-            elif rowSwitches == 10:
+            elif rowSwitches == puzzleWidth:
                 # no rows available for that column index, so switch columns
                 rowSwitches = 0
-                columnIndex = (columnIndex - 1) % (11 - len(word))
+                columnIndex = (columnIndex - 1) % (puzzleWidth + 1 - wordLength)
                 columnSwitches += 1
 
             checkValue = resultsArray[rowIndex][columnIndex + i]
@@ -68,7 +72,7 @@ def horizontalAssign(word, resultsArray):
                 i += 1
             else:
                 # if the spots are already taken, check the next row
-                rowIndex = (rowIndex + 1) % 10
+                rowIndex = (rowIndex + 1) % puzzleWidth
                 rowSwitches += 1
                 i = 0
 
@@ -79,21 +83,21 @@ def horizontalAssign(word, resultsArray):
     
     else:
         # make sure you're not too close to the left side
-        columnIndex = random.randint(len(word) - 1, 9)
+        columnIndex = random.randint(wordLength - 1, puzzleWidth - 1)
 
         i = 0
         rowSwitches = 0
         columnSwitches = 0
-        while i < len(word):
-            if(rowSwitches == 10 and columnSwitches == (11 - len(word))):
+        while i < wordLength:
+            if(rowSwitches == puzzleWidth and columnSwitches == (puzzleWidth + 1 - wordLength)):
                 # no where for the word to fit
                 return False
-            elif rowSwitches == 10:
+            elif rowSwitches == puzzleWidth:
                 # no rows available for that column index, so try next column
                 rowSwitches = 0
                 columnIndex = columnIndex + 1
-                if columnIndex == 10:
-                    columnIndex = len(word) - 1
+                if columnIndex == puzzleWidth:
+                    columnIndex = wordLength - 1
                 columnSwitches += 1
 
             checkValue = resultsArray[rowIndex][columnIndex - i]
@@ -101,7 +105,7 @@ def horizontalAssign(word, resultsArray):
                 i += 1
             else:
                 # if the spots are already taken, check the next row
-                rowIndex = (rowIndex + 1) % 10
+                rowIndex = (rowIndex + 1) % puzzleWidth
                 rowSwitches += 1
                 i = 0
 
@@ -119,23 +123,26 @@ def horizontalAssign(word, resultsArray):
 
 
 def verticalAssign(word, resultsArray):
-    columnIndex = random.randint(0, 9)
+    puzzleWidth = len(resultsArray)
+    wordLength = len(word)
+
+    columnIndex = random.randint(0, puzzleWidth - 1)
     readDownwards = random.randint(0, 1)
     if readDownwards:
         # makes sure you're not too close to the bottom
-        rowIndex = random.randint(0, 10 - len(word))
+        rowIndex = random.randint(0, puzzleWidth - wordLength)
 
         i = 0
         rowSwitches = 0
         columnSwitches = 0
-        while i < len(word):
-            if(columnSwitches == 10 and rowSwitches == (11 - len(word))):
+        while i < wordLength:
+            if(columnSwitches == puzzleWidth and rowSwitches == (puzzleWidth + 1 - wordLength)):
                 # nowhere for the word to fit
                 return False
-            elif columnSwitches == 10:
+            elif columnSwitches == puzzleWidth:
                 # no columns available for that row index, so switch rows
                 columnSwitches = 0
-                rowIndex = (rowIndex + 1) % (11 - len(word))
+                rowIndex = (rowIndex + 1) % (puzzleWidth + 1 - wordLength)
                 rowSwitches += 1
 
             checkValue = resultsArray[rowIndex + i][columnIndex]
@@ -143,7 +150,7 @@ def verticalAssign(word, resultsArray):
                 i += 1
             else:
                 # if the spots are already taken, check the next column
-                columnIndex = (columnIndex + 1) % 10
+                columnIndex = (columnIndex + 1) % puzzleWidth
                 columnSwitches += 1
                 i = 0
 
@@ -153,21 +160,21 @@ def verticalAssign(word, resultsArray):
     
     else:
         # make sure you're not too close to the top
-        rowIndex = random.randint(len(word) - 1, 9)
+        rowIndex = random.randint(wordLength - 1, puzzleWidth - 1)
 
         i = 0
         rowSwitches = 0
         columnSwitches = 0
-        while i < len(word):
-            if(columnSwitches == 10 and rowSwitches == (11 - len(word))):
+        while i < wordLength:
+            if(columnSwitches == puzzleWidth and rowSwitches == (puzzleWidth + 1 - wordLength)):
                 # no where for the word to fit
                 return False
-            elif columnSwitches == 10:
+            elif columnSwitches == puzzleWidth:
                 # no rows available for that column index, so try next column
                 columnSwitches = 0
                 rowIndex = rowIndex + 1
-                if rowIndex == 10:
-                    rowIndex = len(word) - 1
+                if rowIndex == puzzleWidth:
+                    rowIndex = wordLength - 1
                 rowSwitches += 1
 
             checkValue = resultsArray[rowIndex - i][columnIndex]
@@ -175,7 +182,7 @@ def verticalAssign(word, resultsArray):
                 i += 1
             else:
                 # if the spots are already taken, check the next row
-                columnIndex = (columnIndex + 1) % 10
+                columnIndex = (columnIndex + 1) % puzzleWidth
                 columnSwitches += 1
                 i = 0
 
@@ -193,29 +200,31 @@ def verticalAssign(word, resultsArray):
 
 
 def diagonalAssign(word, resultsArray):
+    puzzleWidth = len(resultsArray)
+    wordLength = len(word)
     directionIndicator = random.randint(1, 4)
 
     if directionIndicator == 1:
         #reads top-to-bottom, left-to-right \
-        rowIndex = random.randint(0, 10 - len(word))
-        columnIndex = random.randint(0, 10 - len(word))
+        rowIndex = random.randint(0, puzzleWidth - wordLength)
+        columnIndex = random.randint(0, puzzleWidth - wordLength)
 
         i = 0
         columnSwitch = 0
         rowSwitch = 0
         while(i < len(word)):
-            if(columnSwitch == 11 - len(word) and rowSwitch == 11 - len(word)):
+            if(columnSwitch == puzzleWidth + 1 - wordLength and rowSwitch == puzzleWidth + 1 - wordLength):
                 return False
-            if(columnSwitch == 11 - len(word)):
+            if(columnSwitch == puzzleWidth + 1 - wordLength):
                 columnSwitch = 0
-                rowIndex = (rowIndex + 1) % (11 - len(word))
+                rowIndex = (rowIndex + 1) % (puzzleWidth + 1 - wordLength)
                 rowSwitch += 1
 
             checkValue = resultsArray[rowIndex + i][columnIndex + i]
             if checkValue == '':
                 i += 1
             else:
-                columnIndex = (columnIndex + 1) % (11 - len(word))
+                columnIndex = (columnIndex + 1) % (puzzleWidth + 1 - wordLength)
                 columnSwitch += 1
                 i = 0
 
@@ -224,27 +233,27 @@ def diagonalAssign(word, resultsArray):
 
     elif directionIndicator == 2:
         #reads top-to-bottom, right-to-left /
-        rowIndex = random.randint(0, 10 - len(word))
-        columnIndex = random.randint(len(word) - 1, 9)
+        rowIndex = random.randint(0, puzzleWidth - wordLength)
+        columnIndex = random.randint(wordLength - 1, puzzleWidth - 1)
 
         i = 0
         rowsChecked = 0
         columnsChecked = 0
-        while i < len(word):
-            if(rowsChecked == 11 - len(word) and columnsChecked == 11 - len(word)):
+        while i < wordLength:
+            if(rowsChecked == puzzleWidth + 1 - wordLength and columnsChecked == puzzleWidth + 1 - wordLength):
                 return False
-            elif(rowsChecked == 11 - len(word)):
+            elif(rowsChecked == puzzleWidth + 1 - wordLength):
                 rowsChecked = 0
                 columnIndex = columnIndex + 1
                 if columnIndex > len(resultsArray) - 1:
-                    columnIndex = len(word) - 1
+                    columnIndex = wordLength - 1
                 columnsChecked += 1
 
             checkValue = resultsArray[rowIndex + i][columnIndex - i]
             if checkValue == '':
                 i += 1
             else:
-                rowIndex = (rowIndex + 1) % (11 - len(word))
+                rowIndex = (rowIndex + 1) % (puzzleWidth + 1 - wordLength)
                 rowsChecked += 1
                 i = 0
         
@@ -253,20 +262,20 @@ def diagonalAssign(word, resultsArray):
 
     elif directionIndicator == 3:
         #reads bottom-to-top, right-to-left \
-        rowIndex = random.randint(len(word) - 1, 9)
-        columnIndex = random.randint(len(word) - 1, 9)
+        rowIndex = random.randint(wordLength - 1, puzzleWidth - 1)
+        columnIndex = random.randint(wordLength - 1, puzzleWidth - 1)
 
         i = 0
         rowsChecked = 0
         columnsChecked = 0
-        while i < len(word):
-            if(rowsChecked == 11 - len(word) and columnsChecked == 11 - len(word)):
+        while i < wordLength:
+            if(rowsChecked == puzzleWidth + 1 - wordLength and columnsChecked == puzzleWidth + 1 - wordLength):
                 return False
-            elif(rowsChecked == 11 - len(word)):
+            elif(rowsChecked == puzzleWidth + 1 - wordLength):
                 rowsChecked = 0
                 columnIndex = columnIndex + 1
-                if columnIndex > 9:
-                    columnIndex = len(word) - 1
+                if columnIndex > puzzleWidth - 1:
+                    columnIndex = wordLength - 1
                 columnsChecked += 1
 
             checkValue = resultsArray[rowIndex - i][columnIndex - i]
@@ -274,8 +283,8 @@ def diagonalAssign(word, resultsArray):
                 i += 1
             else:
                 rowIndex += 1
-                if rowIndex > 9:
-                    rowIndex = len(word) - 1
+                if rowIndex > puzzleWidth - 1:
+                    rowIndex = wordLength - 1
                 rowsChecked += 1
                 i = 0
         
@@ -284,18 +293,18 @@ def diagonalAssign(word, resultsArray):
 
     else:
         #reads bottom-to-top, left-to-right /
-        rowIndex = random.randint(len(word) - 1, 9)
-        columnIndex = random.randint(0, 10 - len(word))
+        rowIndex = random.randint(wordLength - 1, puzzleWidth - 1)
+        columnIndex = random.randint(0, puzzleWidth - wordLength)
 
         i = 0
         rowsChecked = 0
         columnsChecked = 0
-        while i < len(word):
-            if(rowsChecked == 11 - len(word) and columnsChecked == 11 - len(word)):
+        while i < wordLength:
+            if(rowsChecked == puzzleWidth + 1 - wordLength and columnsChecked == puzzleWidth + 1 - wordLength):
                 return False
-            elif(rowsChecked == 11 - len(word)):
+            elif(rowsChecked == puzzleWidth + 1 - wordLength):
                 rowsChecked = 0
-                columnIndex = (columnIndex + 1) % (11 - len(word))
+                columnIndex = (columnIndex + 1) % (puzzleWidth + 1 - wordLength)
                 columnsChecked += 1
 
             checkValue = resultsArray[rowIndex - i][columnIndex + i]
@@ -303,8 +312,8 @@ def diagonalAssign(word, resultsArray):
                 i += 1
             else:
                 rowIndex += 1
-                if rowIndex > 9:
-                    rowIndex = len(word) - 1
+                if rowIndex > puzzleWidth - 1:
+                    rowIndex = wordLength - 1
                 rowsChecked += 1
                 i = 0
         
@@ -320,28 +329,28 @@ def diagonalAssign(word, resultsArray):
 
 
 
-def generateWordSearchEasy(wordList):
-    resultMatrix = [['' for i in range(10)] for i in range(10)]
+def generateWordSearchEasy(wordList, width):
+    resultMatrix = [['' for i in range(width)] for i in range(width)]
     for word in wordList:
         direction = random.randint(1,2)
 
         impossible = True
         attempts = 1
         while attempts <= 2:
-          if direction == 1:
-              if horizontalAssign(word, resultMatrix):
-                impossible = False
-                break
-              else:
-                attempts += 1
-                direction = 2
-          else:
-              if verticalAssign(word, resultMatrix):
-                impossible = False
-                break
-              else:
-                attempts += 1
-                direction = 1
+            if direction == 1:
+                if horizontalAssign(word, resultMatrix):
+                    impossible = False
+                    break
+                else:
+                    attempts += 1
+                    direction = 2
+            else:
+                if verticalAssign(word, resultMatrix):
+                    impossible = False
+                    break
+                else:
+                    attempts += 1
+                    direction = 1
         if impossible: return False  # means that the word could not be inserted anywhere in the puzzle, prompt user to try again
 
     for rowIndex, row in enumerate(resultMatrix):
@@ -353,8 +362,8 @@ def generateWordSearchEasy(wordList):
 
 
 
-def generateWordSearchHard(wordList):
-    resultMatrix = [['' for i in range(10)] for i in range(10)]
+def generateWordSearchHard(wordList, width):
+    resultMatrix = [['' for i in range(width)] for i in range(width)]
 
     for word in wordList:
         direction = random.randint(1,3)
@@ -392,17 +401,14 @@ def generateWordSearchHard(wordList):
     return resultMatrix
 
 
-# result = generateWordSearchEase(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
-# for i in range(len(result)):
-#     print result[i]
+# result = generateWordSearchEasy(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
+# pprint.pprint(result)
 # ^^^^^ For checking the easy function ^^^^^
 
 
-result = generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
-for i in range(len(result)):
-    print(result[i])
+pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 15) )
 # ^^^^^ For checking the hard function ^^^^^
 
 
-# print generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'])
+# pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 10) )
 # ^^^^^ For checking the error case ^^^^^
