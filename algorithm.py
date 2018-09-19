@@ -1,6 +1,5 @@
 #INPUT: List of words
 # (words longer than 5 letters increase the chance that a word-search cannot mathematically be created)
-words = ['dog', 'cat', 'chimp', 'eagle', 'snake']
 
 #output: 2-dimensional matrix, 10x10, where the words are displayed horizontally or vertically (NO DIAGONAL)
 # Example output:
@@ -38,10 +37,9 @@ filledArray = [
 
 import random
 import string
-alphabet = string.letters[0:26]
 
-wordSearchTemplate = [['' for i in range(10)] for i in range(10)]
 
+alphabet = string.ascii_lowercase
 
 
 
@@ -386,9 +384,9 @@ def generateWordSearchHard(wordList):
 # ^^^^^ For checking the easy function ^^^^^
 
 
-# result = generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
-# for i in range(len(result)):
-#     print result[i]
+result = generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
+for i in range(len(result)):
+    print(result[i])
 # ^^^^^ For checking the hard function ^^^^^
 
 
