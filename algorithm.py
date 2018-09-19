@@ -68,7 +68,7 @@ def horizontalAssign(word, resultsArray):
                 columnSwitches += 1
 
             checkValue = resultsArray[rowIndex][columnIndex + i]
-            if checkValue == '':
+            if (checkValue == '' or checkValue == word[i]):
                 i += 1
             else:
                 # if the spots are already taken, check the next row
@@ -101,7 +101,7 @@ def horizontalAssign(word, resultsArray):
                 columnSwitches += 1
 
             checkValue = resultsArray[rowIndex][columnIndex - i]
-            if checkValue == '':
+            if (checkValue == '' or checkValue == word[i]):
                 i += 1
             else:
                 # if the spots are already taken, check the next row
@@ -146,7 +146,7 @@ def verticalAssign(word, resultsArray):
                 rowSwitches += 1
 
             checkValue = resultsArray[rowIndex + i][columnIndex]
-            if checkValue == '':
+            if (checkValue == '' or checkValue == word[i]):
                 i += 1
             else:
                 # if the spots are already taken, check the next column
@@ -178,7 +178,7 @@ def verticalAssign(word, resultsArray):
                 rowSwitches += 1
 
             checkValue = resultsArray[rowIndex - i][columnIndex]
-            if checkValue == '':
+            if (checkValue == '' or checkValue == word[i]):
                 i += 1
             else:
                 # if the spots are already taken, check the next row
@@ -221,7 +221,7 @@ def diagonalAssign(word, resultsArray):
                 rowSwitch += 1
 
             checkValue = resultsArray[rowIndex + i][columnIndex + i]
-            if checkValue == '':
+            if (checkValue == '' or checkValue == word[i]):
                 i += 1
             else:
                 columnIndex = (columnIndex + 1) % (puzzleWidth + 1 - wordLength)
@@ -250,7 +250,7 @@ def diagonalAssign(word, resultsArray):
                 columnsChecked += 1
 
             checkValue = resultsArray[rowIndex + i][columnIndex - i]
-            if checkValue == '':
+            if (checkValue == '' or checkValue == word[i]):
                 i += 1
             else:
                 rowIndex = (rowIndex + 1) % (puzzleWidth + 1 - wordLength)
@@ -279,7 +279,7 @@ def diagonalAssign(word, resultsArray):
                 columnsChecked += 1
 
             checkValue = resultsArray[rowIndex - i][columnIndex - i]
-            if checkValue == '':
+            if (checkValue == '' or checkValue == word[i]):
                 i += 1
             else:
                 rowIndex += 1
@@ -308,7 +308,7 @@ def diagonalAssign(word, resultsArray):
                 columnsChecked += 1
 
             checkValue = resultsArray[rowIndex - i][columnIndex + i]
-            if checkValue == '':
+            if (checkValue == '' or checkValue == word[i]):
                 i += 1
             else:
                 rowIndex += 1
@@ -357,10 +357,10 @@ def generateWordSearchEasy(wordList, width):
                     direction = 1
         if impossible: return False  # means that the word could not be inserted anywhere in the puzzle, prompt user to try again
 
-    for rowIndex, row in enumerate(resultMatrix):
-        for colIndex, letter in enumerate(row):
-            if letter == '':
-                resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
+    # for rowIndex, row in enumerate(resultMatrix):
+    #     for colIndex, letter in enumerate(row):
+    #         if letter == '':
+    #             resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
     return resultMatrix
 
 
@@ -405,7 +405,8 @@ def generateWordSearchHard(wordList, width):
     for rowIndex, row in enumerate(resultMatrix):
         for colIndex, letter in enumerate(row):
             if letter == '':
-                resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
+                resultMatrix[rowIndex][colIndex] = ' '
+                # resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
     return resultMatrix
 
 
@@ -414,9 +415,9 @@ def generateWordSearchHard(wordList, width):
 # ^^^^^ For checking the easy function ^^^^^
 
 
-# pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 15) )
+pprint.pprint( generateWordSearchHard(['xaaaAaaaax', 'xaaaaBaaax', 'xaaaCaaaax', 'xaaaaDaaax', 'xaaaEaaaax', 'xaaaFaaaax'], 10) )
 # ^^^^^ For checking the hard function ^^^^^
 
 
-pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 8) )
+# pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 8) )
 # ^^^^^ For checking the error case ^^^^^
