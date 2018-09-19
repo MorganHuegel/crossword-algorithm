@@ -46,7 +46,7 @@ alphabet = string.ascii_lowercase
 def horizontalAssign(word, resultsArray):
     rowIndex = random.randint(0, 9)
     forward = random.randint(0, 1)
-    if(forward):
+    if forward:
         # makes sure you're not too close to the right side
         columnIndex = random.randint(0, 10 - len(word))
 
@@ -73,8 +73,8 @@ def horizontalAssign(word, resultsArray):
                 i = 0
 
         #should have correct rowIndex, colIndex by this point
-        for j in range(len(word)):
-            resultsArray[rowIndex][columnIndex + j] = word[j]
+        for j, letter in enumerate(word):
+            resultsArray[rowIndex][columnIndex + j] = letter
         
     
     else:
@@ -106,8 +106,8 @@ def horizontalAssign(word, resultsArray):
                 i = 0
 
         #should have correct rowIndex and columnIndex by this point
-        for j in range(len(word)):
-            resultsArray[rowIndex][columnIndex - j] = word[j]
+        for j, letter in enumerate(word):
+            resultsArray[rowIndex][columnIndex - j] = letter
     
     return resultsArray
 
@@ -121,7 +121,7 @@ def horizontalAssign(word, resultsArray):
 def verticalAssign(word, resultsArray):
     columnIndex = random.randint(0, 9)
     readDownwards = random.randint(0, 1)
-    if(readDownwards):
+    if readDownwards:
         # makes sure you're not too close to the bottom
         rowIndex = random.randint(0, 10 - len(word))
 
@@ -148,8 +148,8 @@ def verticalAssign(word, resultsArray):
                 i = 0
 
         #should have correct rowIndex and columnIndex by this point
-        for j in range(len(word)):
-            resultsArray[rowIndex + j][columnIndex] = word[j]
+        for j, letter in enumerate(word):
+            resultsArray[rowIndex + j][columnIndex] = letter
     
     else:
         # make sure you're not too close to the top
@@ -180,8 +180,8 @@ def verticalAssign(word, resultsArray):
                 i = 0
 
         #should have correct rowIndex and columnIndex by this point
-        for j in range(len(word)):
-            resultsArray[rowIndex - j][columnIndex] = word[j]
+        for j, letter in enumerate(word):
+            resultsArray[rowIndex - j][columnIndex] = letter
     
     return resultsArray
 
@@ -219,8 +219,8 @@ def diagonalAssign(word, resultsArray):
                 columnSwitch += 1
                 i = 0
 
-        for j in range(len(word)):
-            resultsArray[rowIndex + j][columnIndex + j] = word[j]
+        for j, letter in enumerate(word):
+            resultsArray[rowIndex + j][columnIndex + j] = letter
 
     elif directionIndicator == 2:
         #reads top-to-bottom, right-to-left /
@@ -248,8 +248,8 @@ def diagonalAssign(word, resultsArray):
                 rowsChecked += 1
                 i = 0
         
-        for j in range(len(word)):
-            resultsArray[rowIndex + j][columnIndex - j] = word[j]
+        for j, letter in enumerate(word):
+            resultsArray[rowIndex + j][columnIndex - j] = letter
 
     elif directionIndicator == 3:
         #reads bottom-to-top, right-to-left \
@@ -279,8 +279,8 @@ def diagonalAssign(word, resultsArray):
                 rowsChecked += 1
                 i = 0
         
-        for j in range(len(word)):
-            resultsArray[rowIndex - j][columnIndex - j] = word[j]
+        for j, letter in enumerate(word):
+            resultsArray[rowIndex - j][columnIndex - j] = letter
 
     else:
         #reads bottom-to-top, left-to-right /
@@ -308,8 +308,8 @@ def diagonalAssign(word, resultsArray):
                 rowsChecked += 1
                 i = 0
         
-        for j in range(len(word)):
-            resultsArray[rowIndex - j][columnIndex + j] = word[j]
+        for j, letter in enumerate(word):
+            resultsArray[rowIndex - j][columnIndex + j] = letter
 
     return resultsArray
 
@@ -322,17 +322,32 @@ def diagonalAssign(word, resultsArray):
 
 def generateWordSearchEasy(wordList):
     resultMatrix = [['' for i in range(10)] for i in range(10)]
-    for i in range(len(wordList)):
+    for word in wordList:
         direction = random.randint(1,2)
-        if direction == 1:
-            horizontalAssign(wordList[i], resultMatrix)
-        else:
-            verticalAssign(wordList[i], resultMatrix)
 
-    for i in range(len(resultMatrix)):
-        for j in range(len(resultMatrix[i])):
-            if resultMatrix[i][j] == '':
-                resultMatrix[i][j] = alphabet[random.randint(0, 25)]
+        impossible = True
+        attempts = 1
+        while attempts <= 2:
+          if direction == 1:
+              if horizontalAssign(word, resultMatrix):
+                impossible = False
+                break
+              else:
+                attempts += 1
+                direction = 2
+          else:
+              if verticalAssign(word, resultMatrix):
+                impossible = False
+                break
+              else:
+                attempts += 1
+                direction = 1
+        if impossible: return False  # means that the word could not be inserted anywhere in the puzzle, prompt user to try again
+
+    for rowIndex, row in enumerate(resultMatrix):
+        for colIndex, letter in enumerate(row):
+            if letter == '':
+                resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
     return resultMatrix
 
 
@@ -341,40 +356,39 @@ def generateWordSearchEasy(wordList):
 def generateWordSearchHard(wordList):
     resultMatrix = [['' for i in range(10)] for i in range(10)]
 
-    for i in range(len(wordList)):
+    for word in wordList:
         direction = random.randint(1,3)
 
         impossible = True
-        attempts = 0
+        attempts = 1
         while attempts < 4 :
             if direction == 1:
-                if horizontalAssign(wordList[i], resultMatrix):
+                if horizontalAssign(word, resultMatrix):
                     impossible = False
                     break
                 else:
                     attempts += 1
                     direction = 2
             elif direction == 2:
-                if verticalAssign(wordList[i], resultMatrix):
+                if verticalAssign(word, resultMatrix):
                     impossible = False
                     break
                 else:
                     attempts += 1
                     direction = 3
             else:
-                if diagonalAssign(wordList[i], resultMatrix):
+                if diagonalAssign(word, resultMatrix):
                     impossible = False
                     break
                 else:
                     attempts += 1
                     direction = 1
-        if impossible:
-            return False #means that the word could not be inserted in any direction, user can try again
+        if impossible: return False #means that the word could not be inserted in any direction, prompt user to try again
 
-    for i in range(len(resultMatrix)):
-        for j in range(len(resultMatrix[i])):
-            if resultMatrix[i][j] == '':
-                resultMatrix[i][j] = alphabet[random.randint(0, 25)]
+    for rowIndex, row in enumerate(resultMatrix):
+        for colIndex, letter in enumerate(row):
+            if letter == '':
+                resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
     return resultMatrix
 
 
