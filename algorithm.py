@@ -330,6 +330,10 @@ def diagonalAssign(word, resultsArray):
 
 
 def generateWordSearchEasy(wordList, width):
+    #make sure each word is shorter than the width:
+    for word in wordList:
+        if len(word) > width: return False
+
     resultMatrix = [['' for i in range(width)] for i in range(width)]
     for word in wordList:
         direction = random.randint(1,2)
@@ -363,6 +367,10 @@ def generateWordSearchEasy(wordList, width):
 
 
 def generateWordSearchHard(wordList, width):
+    #make sure each word is shorter than the width:
+    for word in wordList:
+        if len(word) > width: return False
+
     resultMatrix = [['' for i in range(width)] for i in range(width)]
 
     for word in wordList:
@@ -406,9 +414,9 @@ def generateWordSearchHard(wordList, width):
 # ^^^^^ For checking the easy function ^^^^^
 
 
-pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 15) )
+# pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 15) )
 # ^^^^^ For checking the hard function ^^^^^
 
 
-# pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 10) )
+pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 8) )
 # ^^^^^ For checking the error case ^^^^^
