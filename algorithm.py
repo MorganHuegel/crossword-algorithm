@@ -357,10 +357,10 @@ def generateWordSearchEasy(wordList, width):
                     direction = 1
         if impossible: return False  # means that the word could not be inserted anywhere in the puzzle, prompt user to try again
 
-    # for rowIndex, row in enumerate(resultMatrix):
-    #     for colIndex, letter in enumerate(row):
-    #         if letter == '':
-    #             resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
+    for rowIndex, row in enumerate(resultMatrix):
+        for colIndex, letter in enumerate(row):
+            if letter == '':
+                resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
     return resultMatrix
 
 
@@ -405,19 +405,18 @@ def generateWordSearchHard(wordList, width):
     for rowIndex, row in enumerate(resultMatrix):
         for colIndex, letter in enumerate(row):
             if letter == '':
-                resultMatrix[rowIndex][colIndex] = ' '
-                # resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
+                resultMatrix[rowIndex][colIndex] = alphabet[random.randint(0, 25)]
     return resultMatrix
 
 
-# result = generateWordSearchEasy(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'])
+# result = generateWordSearchEasy(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 10)
 # pprint.pprint(result)
 # ^^^^^ For checking the easy function ^^^^^
 
 
-pprint.pprint( generateWordSearchHard(['xaaaAaaaax', 'xaaaaBaaax', 'xaaaCaaaax', 'xaaaaDaaax', 'xaaaEaaaax', 'xaaaFaaaax'], 10) )
+# pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 15) )
 # ^^^^^ For checking the hard function ^^^^^
 
 
-# pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotte', 'alfredosau', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 8) )
+# pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotter', 'alfredosauce', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 8) )
 # ^^^^^ For checking the error case ^^^^^
