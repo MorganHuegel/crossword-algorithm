@@ -414,7 +414,7 @@ def generateWordSearchHard(wordList, width):
 # ^^^^^ For checking the easy function ^^^^^
 
 
-# pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 15) )
+pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 15) )
 # ^^^^^ For checking the hard function ^^^^^
 
 
