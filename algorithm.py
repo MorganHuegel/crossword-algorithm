@@ -413,10 +413,22 @@ def generateWordSearchHard(wordList, width):
 # pprint.pprint(result)
 # ^^^^^ For checking the easy function ^^^^^
 
+# pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotter', 'alfredosauce', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 8) )
+# ^^^^^ For checking the error case ^^^^^
 
-pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog', 'zzzzz'], 15) )
+
+
+
+
+##########################################################################################################################################################################
+##########################################################################################################################################################################
+
+
+
+
+
+pprint.pprint( generateWordSearchHard(['chimp', 'harry', 'alfred', 'heart', 'dog'], 15) )
 # ^^^^^ For checking the hard function ^^^^^
 
 
-# pprint.pprint( generateWordSearchHard(['chimpanzee', 'harrypotter', 'alfredosauce', 'heartthrob', 'dogandcats', 'zzzzzzzzzz'], 8) )
-# ^^^^^ For checking the error case ^^^^^
+
