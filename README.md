@@ -24,7 +24,7 @@ This is an algorithm for generating an N by N word search when given a list of w
 `python algorithm.py`
 
 
- ![example command line instructions](ENTER URL HERE)
+ ![example command line instructions](https://github.com/MorganHuegel/word-search-algorithm/blob/master/screen-shot.png)
 
 ### Modifying the Word-Search
 
